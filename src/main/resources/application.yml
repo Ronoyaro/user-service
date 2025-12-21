@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: user-service
+
+server:
+  servlet:
+    context-path: /
+  error:
+    include-stacktrace: on_param
+logging:
+  level:
+    ronoyaro.study: debug
