@@ -1,12 +1,19 @@
 spring:
   application:
     name: user-service
-
+  threads:
+    virtual:
+      enabled: true
+logging:
+  level:
+    ronoyaro.study: debug
 server:
   servlet:
     context-path: /
   error:
     include-stacktrace: on_param
-logging:
-  level:
-    ronoyaro.study: debug
+  tomcat:
+    threads:
+      max: 20
+
+
