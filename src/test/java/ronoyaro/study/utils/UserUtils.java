@@ -1,4 +1,4 @@
-package ronoyaro.study.mock;
+package ronoyaro.study.utils;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -11,10 +11,10 @@ import java.util.List;
 @Component
 @ToString
 @Getter
-public class MockUser {
+public class UserUtils {
     private List<User> usersList = new ArrayList<>();
 
-    public MockUser() {
+    public UserUtils() {
         var roger = User.builder()
                 .id(1L)
                 .firstName("Roger")

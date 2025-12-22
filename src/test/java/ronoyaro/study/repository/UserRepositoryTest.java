@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ronoyaro.study.domain.User;
-import ronoyaro.study.mock.MockUser;
+import ronoyaro.study.utils.UserUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +21,13 @@ class UserRepositoryTest {
     @Mock
     private UserData userData;
     @InjectMocks
-    private MockUser mockUser;
+    private UserUtils userUtils;
 
     private List<User> usersList = new ArrayList<>();
 
     @BeforeEach
     void init() {
-        usersList = mockUser.getUsersList();
+        usersList = userUtils.getUsersList();
     }
 
     @Test

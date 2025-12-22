@@ -23,11 +23,11 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> listAll(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<UserResponseDTO>> listAll(@RequestParam(required = false) String firstName) {
 
-        log.debug("Request to list all users from name '{}'", name);
+        log.debug("Request to list all users from name '{}'", firstName);
 
-        List<User> users = userService.findAll(name);
+        List<User> users = userService.findAll(firstName);
 
         List<UserResponseDTO> usersListResponseDTO = userMapper.toUsersListResponseDTO(users);
 
