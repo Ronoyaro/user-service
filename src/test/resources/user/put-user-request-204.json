@@ -1,4 +1,6 @@
 {
   "id": 1,
+  "firstName": "Roger",
+  "lastName": "Campbell",
   "email": "NewRogerCampbell@example.com"
 }

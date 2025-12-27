@@ -166,6 +166,5 @@ class UserRepositoryTest {
         Assertions.assertThat(usersList)
                 .contains(userToUpdate);
 
-
     }
 }

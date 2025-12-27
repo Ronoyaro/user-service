@@ -1,6 +1,7 @@
 package ronoyaro.study.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
     private final UserRepository repository;
 
@@ -31,9 +33,7 @@ public class UserService {
     }
 
     public void update(User userToUpdate) {
-        var userFound = findByIdOrThrowNotFound(userToUpdate.getId());
-        userToUpdate.setFirstName(userFound.getFirstName());
-        userToUpdate.setLastName(userFound.getLastName());
+        findByIdOrThrowNotFound(userToUpdate.getId());
         repository.update(userToUpdate);
     }
 

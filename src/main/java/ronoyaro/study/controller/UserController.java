@@ -1,5 +1,6 @@
 package ronoyaro.study.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> save(@RequestBody UserRequestDTO userRequestDTO) {
+    public ResponseEntity<UserResponseDTO> save(@RequestBody @Valid UserRequestDTO userRequestDTO) {
 
         log.debug("Request to save user '{}'", userRequestDTO.getFirstName());
 
@@ -75,10 +76,12 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody UserPutRequestDTO userPutRequestDTO) {
+    public ResponseEntity<Void> update(@RequestBody @Valid UserPutRequestDTO userPutRequestDTO) {
         log.debug("Request do update user '{}'", userPutRequestDTO.getId());
 
         User userToUpdate = userMapper.toUser(userPutRequestDTO);
+
+        log.debug("user? {}", userToUpdate);
 
         userService.update(userToUpdate);
 
