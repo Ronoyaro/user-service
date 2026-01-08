@@ -2,10 +2,9 @@ package ronoyaro.study.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import ronoyaro.study.domain.User;
+import ronoyaro.study.exception.NotFoundException;
 import ronoyaro.study.repository.UserRepository;
 
 import java.util.List;
@@ -23,8 +22,7 @@ public class UserService {
 
     public User findByIdOrThrowNotFound(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException
-                        (HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public User save(User userToSave) {

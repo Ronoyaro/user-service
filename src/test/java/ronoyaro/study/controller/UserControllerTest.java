@@ -128,12 +128,14 @@ class UserControllerTest {
 
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
+        var response = fileUtils.readResourceLoader("user/get-user-not-found-response-400.json");
+
         Long id = 99L;
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/users/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("User not found"));
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
@@ -179,17 +181,19 @@ class UserControllerTest {
 
     @Test
     @Order(8)
-    @DisplayName("DELETE v1/users/{id} throws a ResponseStatusHTPException 404")
-    void delete_ThrowsAResponseStatusException404_WhenUserIsNotFound() throws Exception {
+    @DisplayName("DELETE v1/users/{id} throws a NotFoundException when user is not found")
+    void delete_ThrowsANotFoundException_WhenUserIsNotFound() throws Exception {
 
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
+
+        var response = fileUtils.readResourceLoader("user/delete-user-not-found-response-400.json");
 
         Long id = 99L;
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v1/users/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("User not found"));
+                .andExpect(MockMvcResultMatchers.content().json(response));
 
     }
 
@@ -214,12 +218,13 @@ class UserControllerTest {
 
     @Test
     @Order(10)
-    @DisplayName("PUT v1/users throws ResponseStatusException whenUserNotFound")
-    void update_UpdatesThrowsAnException_WhenUserNotFound() throws Exception {
+    @DisplayName("PUT v1/users throws NotFoundException when user is not found")
+    void update_UpdatesThrowsANotFoundException_WhenUserNotFound() throws Exception {
 
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
         var request = fileUtils.readResourceLoader("user/put-user-request-404.json");
+        var response = fileUtils.readResourceLoader("user/put-user-not-found-response-400.json");
 
         mockMvc.perform(MockMvcRequestBuilders.put("/v1/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -227,7 +232,7 @@ class UserControllerTest {
                 )
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("User not found"));
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @ParameterizedTest
