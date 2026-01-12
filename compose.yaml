@@ -1,0 +1,13 @@
+services:
+  mysql:
+    image: mysql:9.0.1
+    environment:
+      MYSQL_ROOT_PASSWORD: dev
+      MYSQL_USER: ronoyaro
+      MYSQL_PASSWORD: study
+    ports:
+      - "3306:3306"
+    volumes:
+      - user_service-db:/var/lib/mysql
+volumes:
+  user_service-db:

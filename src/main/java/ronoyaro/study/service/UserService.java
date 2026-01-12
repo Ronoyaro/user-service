@@ -17,7 +17,7 @@ public class UserService {
     private final UserRepository repository;
 
     public List<User> findAll(String name) {
-        return name == null ? repository.findAll() : repository.findByName(name);
+        return name == null ? repository.findAll() : repository.findByFirstNameIgnoreCase(name);
     }
 
     public User findByIdOrThrowNotFound(Long id) {
@@ -32,7 +32,7 @@ public class UserService {
 
     public void update(User userToUpdate) {
         findByIdOrThrowNotFound(userToUpdate.getId());
-        repository.update(userToUpdate);
+        repository.save(userToUpdate);
     }
 
     public void deleteById(Long id) {

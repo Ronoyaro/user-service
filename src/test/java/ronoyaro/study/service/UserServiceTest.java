@@ -10,8 +10,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 import ronoyaro.study.domain.User;
-import ronoyaro.study.repository.UserData;
 import ronoyaro.study.repository.UserRepository;
+import ronoyaro.study.utils.UserUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,14 +29,15 @@ class UserServiceTest {
     private UserRepository repository;
 
     @InjectMocks
-    private UserData userData;
+    private UserUtils userUtils;
 
     private List<User> userList = new ArrayList<>();
 
-
     @BeforeEach
     void init() {
-        userList = userData.getUsers();
+
+        userList = userUtils.getUsersList();
+
     }
 
     @Test
@@ -60,7 +61,7 @@ class UserServiceTest {
         var userExpected = userList.getFirst();
         var singletonList = singletonList(userExpected);
 
-        BDDMockito.when(repository.findByName(userExpected.getFirstName()))
+        BDDMockito.when(repository.findByFirstNameIgnoreCase(userExpected.getFirstName()))
                 .thenReturn(singletonList);
 
         var users = service.findAll(userExpected.getFirstName());
@@ -78,7 +79,7 @@ class UserServiceTest {
         var xaxa = "xaxa";
         List<User> emptyList = Collections.emptyList();
 
-        BDDMockito.when(repository.findByName(xaxa)).thenReturn(emptyList);
+        BDDMockito.when(repository.findByFirstNameIgnoreCase(xaxa)).thenReturn(emptyList);
 
         var emptyListExpected = service.findAll(xaxa);
 
@@ -142,8 +143,6 @@ class UserServiceTest {
 
         BDDMockito.when(repository.findById(userToDelete.getId())).thenReturn(Optional.of(userToDelete));
 
-        BDDMockito.doNothing().when(repository).delete(userToDelete);
-
         Assertions.assertThatNoException().isThrownBy(() -> service.deleteById(userToDelete.getId()));
 
     }
@@ -172,7 +171,6 @@ class UserServiceTest {
 
         BDDMockito.when(repository.findById(userToUpdate.getId())).thenReturn(Optional.of(userToUpdate));
 
-        BDDMockito.doNothing().when(repository).update(userToUpdate);
 
         Assertions.assertThatNoException().isThrownBy(() -> service.update(userToUpdate));
     }
@@ -191,9 +189,6 @@ class UserServiceTest {
         Assertions.assertThatException().isThrownBy(() -> service.update(userToUpdate))
                 .isInstanceOf(ResponseStatusException.class);
     }
-
-
-
 
 
     private static @NonNull List<User> singletonList(User userExpected) {
