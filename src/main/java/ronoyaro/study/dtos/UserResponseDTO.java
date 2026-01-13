@@ -1,4 +1,4 @@
-package ronoyaro.study.DTOs;
+package ronoyaro.study.dtos;
 
 import lombok.Getter;
 import lombok.Setter;

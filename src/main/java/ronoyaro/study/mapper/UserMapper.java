@@ -1,9 +1,9 @@
 package ronoyaro.study.mapper;
 
 import org.mapstruct.Mapper;
-import ronoyaro.study.DTOs.UserPutRequestDTO;
-import ronoyaro.study.DTOs.UserRequestDTO;
-import ronoyaro.study.DTOs.UserResponseDTO;
+import ronoyaro.study.dtos.UserPostRequestDTO;
+import ronoyaro.study.dtos.UserPutRequestDTO;
+import ronoyaro.study.dtos.UserResponseDTO;
 import ronoyaro.study.domain.User;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface UserMapper {
 
     UserResponseDTO toUserResponseDTO(User user);
 
-    User toUser(UserRequestDTO userRequestDTO);
+    User toUser(UserPostRequestDTO userPostRequestDTO);
 
     User toUser(UserPutRequestDTO userPutRequestDTO);
 }

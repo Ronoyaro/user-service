@@ -2,13 +2,14 @@ package ronoyaro.study.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ronoyaro.study.domain.User;
 import ronoyaro.study.exception.NotFoundException;
 import ronoyaro.study.repository.UserRepository;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +27,13 @@ public class UserService {
     }
 
     public User save(User userToSave) {
-        userToSave.setId(ThreadLocalRandom.current().nextLong(1, 120));
+        assertEmailDoesNotExists(userToSave.getEmail());
         return repository.save(userToSave);
     }
 
     public void update(User userToUpdate) {
-        findByIdOrThrowNotFound(userToUpdate.getId());
+        assertUserExists(userToUpdate.getId());
+        assertEmailDoesNotExists(userToUpdate.getEmail(), userToUpdate.getId());
         repository.save(userToUpdate);
     }
 
@@ -39,5 +41,24 @@ public class UserService {
         var userToDelete = findByIdOrThrowNotFound(id);
         repository.delete(userToDelete);
     }
+
+    public void assertUserExists(Long id) {
+        findByIdOrThrowNotFound(id);
+    }
+
+    public void assertEmailDoesNotExists(String email) {
+        repository.findByEmail(email)
+                .ifPresent(this::throwsEmailExistsException);
+    }
+
+    public void assertEmailDoesNotExists(String email, Long id) {
+        repository.findByEmailAndIdNot(email, id).ifPresent((this::throwsEmailExistsException));
+    }
+
+    private void throwsEmailExistsException(User user) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email %s already exists".formatted(user.getEmail()));
+    }
+
+
 }
 

@@ -6,9 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ronoyaro.study.DTOs.UserPutRequestDTO;
-import ronoyaro.study.DTOs.UserRequestDTO;
-import ronoyaro.study.DTOs.UserResponseDTO;
+import ronoyaro.study.dtos.UserPostRequestDTO;
+import ronoyaro.study.dtos.UserPutRequestDTO;
+import ronoyaro.study.dtos.UserResponseDTO;
 import ronoyaro.study.domain.User;
 import ronoyaro.study.mapper.UserMapper;
 import ronoyaro.study.service.UserService;
@@ -50,11 +50,11 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> save(@RequestBody @Valid UserRequestDTO userRequestDTO) {
+    public ResponseEntity<UserResponseDTO> save(@RequestBody @Valid UserPostRequestDTO userPostRequestDTO) {
 
-        log.debug("Request to save user '{}'", userRequestDTO.getFirstName());
+        log.debug("Request to save user '{}'", userPostRequestDTO.getFirstName());
 
-        var userToSave = userMapper.toUser(userRequestDTO);
+        var userToSave = userMapper.toUser(userPostRequestDTO);
 
         var userSaved = userService.save(userToSave);
 
