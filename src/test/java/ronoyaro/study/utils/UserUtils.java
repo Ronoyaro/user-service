@@ -39,5 +39,13 @@ public class UserUtils {
         usersList.addAll(List.of(roger, george, david));
     }
 
+    public User newUser() {
+        return User.builder()
+                .firstName("Joseph")
+                .lastName("Joestar")
+                .email("JosephJoestar@example.com")
+                .build();
+    }
+
 
 }

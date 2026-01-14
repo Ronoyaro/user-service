@@ -3,7 +3,7 @@ package ronoyaro.study.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-
+@With
 @Builder
 @Getter
 @Setter

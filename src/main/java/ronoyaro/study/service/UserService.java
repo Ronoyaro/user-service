@@ -2,10 +2,9 @@ package ronoyaro.study.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import ronoyaro.study.domain.User;
+import ronoyaro.study.exception.EmailAlreadyExistsException;
 import ronoyaro.study.exception.NotFoundException;
 import ronoyaro.study.repository.UserRepository;
 
@@ -56,7 +55,7 @@ public class UserService {
     }
 
     private void throwsEmailExistsException(User user) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email %s already exists".formatted(user.getEmail()));
+        throw new EmailAlreadyExistsException("Email %s already exists".formatted(user.getEmail()));
     }
 
 
