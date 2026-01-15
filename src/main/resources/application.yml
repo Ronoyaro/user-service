@@ -1,8 +1,14 @@
 spring:
-  profiles:
-    active: prod
   application:
     name: user-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_service?useTimeZone=true&serverTimeZone=UTC&createDatabaseIfNotExist=true
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
   threads:
     virtual:
       enabled: true
