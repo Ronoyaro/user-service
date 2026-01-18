@@ -90,7 +90,7 @@ class UserControllerTest {
 
     @Test
     @Order(3)
-    @DisplayName("GET v1/users?name=xaxa returns an empty list when name is not found")
+    @DisplayName("GET v1/users?firstName=xaxa returns an empty list when name is not found")
     void findByName_ReturnsAnEmptyList_WhenNameIsNotFound() throws Exception {
         String name = "xaxa";
 
