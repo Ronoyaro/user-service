@@ -11,14 +11,16 @@ import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ronoyaro.study.domain.User;
+import ronoyaro.study.mapper.UserMapperImpl;
 import ronoyaro.study.repository.UserRepository;
+import ronoyaro.study.service.UserService;
 import ronoyaro.study.utils.FileUtils;
 import ronoyaro.study.utils.UserUtils;
 
@@ -28,14 +30,14 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @WebMvcTest(controllers = UserController.class)
-@ComponentScan(basePackages = "ronoyaro.study")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import({UserRepository.class, FileUtils.class, UserUtils.class, UserMapperImpl.class, UserService.class})
 class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    UserRepository repository;
+    private UserRepository repository;
 
     @Autowired
     private FileUtils fileUtils;

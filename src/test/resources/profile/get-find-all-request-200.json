@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "description": "user created to admin test"
+  },
+  {
+    "id": 2,
+    "name": "User",
+    "description": "user created to user test"
+  },
+  {
+    "id": 3,
+    "name": "Guest",
+    "description": "user created to guest test"
+  }
+]

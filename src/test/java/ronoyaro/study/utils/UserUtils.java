@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 @Getter
 public class UserUtils {
-    private List<User> usersList = new ArrayList<>();
+    private final List<User> usersList = new ArrayList<>();
 
     public UserUtils() {
         var roger = User.builder()

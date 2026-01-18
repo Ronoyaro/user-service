@@ -1,10 +1,10 @@
 package ronoyaro.study.mapper;
 
 import org.mapstruct.Mapper;
+import ronoyaro.study.domain.User;
 import ronoyaro.study.dtos.UserPostRequestDTO;
 import ronoyaro.study.dtos.UserPutRequestDTO;
 import ronoyaro.study.dtos.UserResponseDTO;
-import ronoyaro.study.domain.User;
 
 import java.util.List;
 

@@ -6,10 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ronoyaro.study.domain.User;
 import ronoyaro.study.dtos.UserPostRequestDTO;
 import ronoyaro.study.dtos.UserPutRequestDTO;
 import ronoyaro.study.dtos.UserResponseDTO;
-import ronoyaro.study.domain.User;
 import ronoyaro.study.mapper.UserMapper;
 import ronoyaro.study.service.UserService;
 
