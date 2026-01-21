@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 @Table(name = "users")
 @Entity
@@ -16,6 +16,7 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
     @Column(nullable = false)
     private String firstName;

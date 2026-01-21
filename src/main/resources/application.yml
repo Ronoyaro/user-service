@@ -15,6 +15,7 @@ spring:
 logging:
   level:
     ronoyaro.study: debug
+    net.ttddyy.dsproxy.listener: debug
 server:
   servlet:
     context-path: /

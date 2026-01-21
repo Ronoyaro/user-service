@@ -2,6 +2,7 @@ package ronoyaro.study.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -208,6 +209,31 @@ class ProfileControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().json(response));
 
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("POST /v1/profiles throws Bad Request when fields aren't valids")
+    void save_ThrowsBadRequest_WhenFieldIsBlank() throws Exception {
+
+        var profileBlank = profileUtils.newProfileBlank();
+        profileBlank.setName("");
+        profileBlank.setDescription("");
+
+        var request = objectMapper.writeValueAsString(profileBlank);
+
+        var fieldsRequiredError = List.of("The field 'name' is required", "The field 'description' is required");
+
+        var result = mockMvc.perform(post(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        var exception = result.getResolvedException();
+
+        Assertions.assertThat(exception.getMessage()).contains(fieldsRequiredError);
     }
 
 
