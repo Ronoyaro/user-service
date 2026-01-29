@@ -91,13 +91,14 @@ class ProfileServiceTest {
     @Order(5)
     @DisplayName("save creates a new Profile when successful")
     void save_CreatesANewProfile_whenSuccessful() {
-        var profileToSave = profileUtils.newProfile();
+        var profileToSave = profileUtils.newProfileToSave();
+        var profileSaved = profileUtils.newProfileSaved();
 
-        BDDMockito.when(repository.save(profileToSave)).thenReturn(profileToSave);
+        BDDMockito.when(repository.save(profileToSave)).thenReturn(profileSaved);
 
         Assertions.assertThat(service.save(profileToSave))
                 .hasNoNullFieldsOrProperties()
-                .isEqualTo(profileToSave);
+                .isEqualTo(profileSaved);
 
     }
 

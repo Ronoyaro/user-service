@@ -13,6 +13,7 @@ import lombok.*;
 @NamedEntityGraph(name = "UserProfile.fullDetails",
         attributeNodes = {@NamedAttributeNode("user"), @NamedAttributeNode("profile")}
 )
+@Builder
 public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -10,6 +10,7 @@ import lombok.*;
 @Entity
 @EqualsAndHashCode(of = "id")
 @ToString
+@Builder
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

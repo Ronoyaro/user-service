@@ -21,8 +21,19 @@ public class ProfileUtils {
         return profiles;
     }
 
-    public Profile newProfile() {
-        return new Profile(1L, "Guest 2", "user created to guest 2 test");
+    public Profile newProfileToSave() {
+        return Profile.builder()
+                .name("Admin")
+                .description("Manages everything")
+                .build();
+    }
+
+    public Profile newProfileSaved() {
+        return Profile.builder()
+                .id(1L)
+                .name("Admin")
+                .description("Manages everything")
+                .build();
     }
 
     public ProfilePostRequestDTO newProfileBlank() {
