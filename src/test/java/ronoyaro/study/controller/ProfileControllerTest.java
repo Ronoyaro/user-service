@@ -6,9 +6,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ronoyaro.study.domain.Profile;
 import ronoyaro.study.dtos.ProfilePostRequestDTO;
@@ -46,7 +46,7 @@ class ProfileControllerTest {
     @Autowired
     private ProfileUtils profileUtils;
 
-    @MockBean
+    @MockitoBean
     private ProfileRepository repository;
 
     @Autowired

@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
+import ronoyaro.study.config.TestcontainerBasicConfig;
 
 @DataJpaTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class UserProfileRepositoryTest {
+class UserProfileRepositoryTest extends TestcontainerBasicConfig { //Utilizar testes de container no repositorio serve para testar o nosso banco
     @Autowired
     private UserProfileRepository repository;
 

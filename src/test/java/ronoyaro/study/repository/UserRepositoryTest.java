@@ -8,15 +8,16 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
+import ronoyaro.study.config.TestcontainerBasicConfig;
 import ronoyaro.study.domain.User;
 import ronoyaro.study.utils.UserUtils;
 
 @DataJpaTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Import({UserUtils.class})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) //Não está sendo usado, mas deixa ai.
 //@Transactional(propagation = Propagation.NOT_SUPPORTED) Indica que não será feito um rollback no db
-class UserRepositoryTest {
+class UserRepositoryTest extends TestcontainerBasicConfig { //Utilizar testes de container no repositorio serve para testar o nosso banco
 
     @Autowired
     private UserRepository repository;

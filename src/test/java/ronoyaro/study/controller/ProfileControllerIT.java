@@ -13,8 +13,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import ronoyaro.study.config.TestcontainerBasicConfig;
 import ronoyaro.study.dtos.ProfileGetResponseDTO;
 import ronoyaro.study.dtos.ProfilePostRequestDTO;
 
@@ -25,19 +24,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //Teste roda numa porta aleatória
-@Transactional(propagation = Propagation.REQUIRED)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ProfileControllerIT {
+class ProfileControllerIT extends TestcontainerBasicConfig {
 
     private static final String URL = "/v1/profiles";
+
     @Autowired
     private TestRestTemplate testRestTemplate;
+
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     @Order(1)
-    @Sql(value = "/sql/init_two_profiles.sql")
+    @Sql(value = "/sql/init_two_profiles.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/sql/clean_profiles.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("findAll returns a list with all profiles")
     void findAll_ReturnsAllProfiles_WhenSuccessful() {
 
@@ -47,7 +48,7 @@ class ProfileControllerIT {
         //testRestTemplate recebe uma URL, um tipo de Metodo, se tem algo a passar no corpo, e o o tipo do nosso retorno
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isNotNull();
+        assertThat(responseEntity.getBody()).isNotEmpty();
 
         responseEntity
                 .getBody()
