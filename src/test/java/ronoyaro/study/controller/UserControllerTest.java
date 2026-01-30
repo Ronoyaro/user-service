@@ -126,7 +126,7 @@ class UserControllerTest {
     @DisplayName("GET v1/users/{id} throws a ResponseStatusHTTPException 404 when user not found")
     void findByName_ThrowsException404_WhenIsNotFound() throws Exception {
 
-        var response = fileUtils.readResourceLoader("user/get-user-not-found-response-400.json");
+        var response = fileUtils.readResourceLoader("user/get-user-not-found-response-404.json");
 
         Long id = 99L;
 
@@ -186,7 +186,7 @@ class UserControllerTest {
     @DisplayName("DELETE v1/users/{id} throws a NotFoundException when user is not found")
     void delete_ThrowsANotFoundException_WhenUserIsNotFound() throws Exception {
 
-        var response = fileUtils.readResourceLoader("user/delete-user-not-found-response-400.json");
+        var response = fileUtils.readResourceLoader("user/delete-user-not-found-response-404.json");
 
         Long id = 99L;
 

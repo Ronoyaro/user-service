@@ -39,7 +39,7 @@ class UserRepositoryTest extends TestcontainerBasicConfig { //Utilizar testes de
     @Test
     @Order(2)
     @DisplayName("find All returns a list with users")
-    @Sql("/sql/init_one_user.sql")
+    @Sql("/sql/user/init_one_user.sql")
     void findAll_ReturnsAllUsers() {
         var usersExpected = repository.findAll();
 

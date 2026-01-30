@@ -18,7 +18,7 @@ class UserProfileRepositoryTest extends TestcontainerBasicConfig { //Utilizar te
     @Test
     @Order(1)
     @DisplayName("findAllUsersByProfileId find all Users by ProfileId")
-    @Sql("/sql/init_user_profile_2_users_1_profile.sql")
+    @Sql("/sql/profile/init_user_profile_2_users_1_profile.sql")
     void findAllUsersByProfileId_ReturnsAllUsersByProfileId() {
         Long profileId = 1L;
         var allUsersByProfileId = repository.findAllUsersByProfileId(profileId);

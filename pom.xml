@@ -32,6 +32,7 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <p6spy-spring-boot-starter.version>1.12.1</p6spy-spring-boot-starter.version>
         <json-unit-assertj.version>4.1.1</json-unit-assertj.version>
+        <rest-assured.version>6.0.0</rest-assured.version>
     </properties>
 
 
@@ -70,6 +71,11 @@
             <artifactId>json-unit-assertj</artifactId>
             <version>${json-unit-assertj.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.gavlyukovskiy</groupId>

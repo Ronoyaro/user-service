@@ -1,0 +1,6 @@
+{
+  "timestamp": "2026-01-30T16:36:41.306781100Z",
+  "statusCode": 400,
+  "error": "Bad Request",
+  "message": "some field is blank or empty"
+}

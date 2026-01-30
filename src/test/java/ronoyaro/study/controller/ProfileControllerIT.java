@@ -37,8 +37,8 @@ class ProfileControllerIT extends TestcontainerBasicConfig {
 
     @Test
     @Order(1)
-    @Sql(value = "/sql/init_two_profiles.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(value = "/sql/clean_profiles.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(value = "/sql/profile/init_two_profiles.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/sql/profile/clean_profiles.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("findAll returns a list with all profiles")
     void findAll_ReturnsAllProfiles_WhenSuccessful() {
 
@@ -74,6 +74,7 @@ class ProfileControllerIT extends TestcontainerBasicConfig {
     @Test
     @Order(3)
     @DisplayName("save creates a new profile")
+    @Sql(value = "/sql/profile/clean_profiles.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void save_Creates_ANewProfile() throws JsonProcessingException {
         var profilePostRequestDTO = new ProfilePostRequestDTO("Admin", "Can manages everything");
         var requestEntity = objectMapper.writeValueAsString(profilePostRequestDTO);
@@ -112,9 +113,10 @@ class ProfileControllerIT extends TestcontainerBasicConfig {
     private static Stream<Arguments> PostBadRequest() {
         String expectedBadRequest = """
                 {
-                  "status": 400,
-                  "error": "Bad Request",
-                  "path": "/v1/profiles"
+                  "timestamp":"2026-01-30T20:39:14.433033600Z",
+                  "statusCode":400,
+                  "error":"Bad Request",
+                  "message":"some field is blank or empty"
                 }
                 """;
 
