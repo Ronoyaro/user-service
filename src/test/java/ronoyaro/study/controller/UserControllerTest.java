@@ -304,7 +304,7 @@ class UserControllerTest {
         var lastNameMessage = "The field 'lastName' is required";
         var emailMessage = "The field 'email' is required";
         var allErros = List.of(firstNameMessage, lastNameMessage, emailMessage);
-        var emailError = Collections.singletonList("Email is invalid");
+        var emailError = Collections.singletonList("The email is invalid");
 
         return Stream.of(
                 Arguments.of("post-user-null-fields-request-400.json", allErros),

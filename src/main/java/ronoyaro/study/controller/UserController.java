@@ -17,6 +17,7 @@ import ronoyaro.study.domain.User;
 import ronoyaro.study.dtos.UserPostRequestDTO;
 import ronoyaro.study.dtos.UserPutRequestDTO;
 import ronoyaro.study.dtos.UserResponseDTO;
+import ronoyaro.study.exception.BadRequestError;
 import ronoyaro.study.exception.ErrorMessageDefault;
 import ronoyaro.study.mapper.UserMapper;
 import ronoyaro.study.service.UserService;
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Find User by id",
+    @Operation(summary = "Find user by id",
             responses = {
                     @ApiResponse(description = "Find user by its id",
                             responseCode = "200",
@@ -78,7 +79,19 @@ public class UserController {
     }
 
     @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED) //Swagger
+    @Operation(summary = "Save a new user", description = "Creates and save a new user in the system",
+            responses = {
+                    @ApiResponse(description = "save a user",
+                            responseCode = "201",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserPostRequestDTO.class))
+                    ),
+                    @ApiResponse(description = "throws Bad Request",
+                            responseCode = "400",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BadRequestError.class))
+                    )
+            }
+
+    )
     public ResponseEntity<UserResponseDTO> save(@RequestBody @Valid UserPostRequestDTO userPostRequestDTO) {
 
         log.debug("Request to save user '{}'", userPostRequestDTO.getFirstName());

@@ -1,7 +1,5 @@
 package ronoyaro.study.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.javacrumbs.jsonunit.assertj.JsonAssertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,6 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 import ronoyaro.study.config.TestcontainerBasicConfig;
 import ronoyaro.study.dtos.ProfileGetResponseDTO;
 import ronoyaro.study.dtos.ProfilePostRequestDTO;
+import ronoyaro.study.utils.FileUtils;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -33,7 +32,7 @@ class ProfileControllerIT extends TestcontainerBasicConfig {
     private TestRestTemplate testRestTemplate;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private FileUtils fileUtils;
 
     @Test
     @Order(1)
@@ -75,9 +74,9 @@ class ProfileControllerIT extends TestcontainerBasicConfig {
     @Order(3)
     @DisplayName("save creates a new profile")
     @Sql(value = "/sql/profile/clean_profiles.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    void save_Creates_ANewProfile() throws JsonProcessingException {
-        var profilePostRequestDTO = new ProfilePostRequestDTO("Admin", "Can manages everything");
-        var requestEntity = objectMapper.writeValueAsString(profilePostRequestDTO);
+    void save_Creates_ANewProfile() {
+
+        var requestEntity = fileUtils.readResourceLoader("/profile/save-profile-request.json");
 
         var request = buildHttpEntity(requestEntity);
 
@@ -94,11 +93,12 @@ class ProfileControllerIT extends TestcontainerBasicConfig {
     @MethodSource(value = "PostBadRequest")
     @Order(4)
     @DisplayName("save throws a Bad Request when the fields are null or empty")
-    void save_ThrowsBadRequest_WhenFieldsAreEmptyOrNull(ProfilePostRequestDTO profile, String expectedResponse) throws JsonProcessingException {
+    void save_ThrowsBadRequest_WhenFieldsAreEmptyOrNull(String profile, String expectedResponse) {
 
-        String requestEntity = objectMapper.writeValueAsString(profile);
+        var response = fileUtils.readResourceLoader(expectedResponse);
+        var profileToSave = fileUtils.readResourceLoader(profile);
 
-        var request = buildHttpEntity(requestEntity);
+        var request = buildHttpEntity(profileToSave);
 
         var responseEntity = testRestTemplate.exchange(URL, HttpMethod.POST, request, String.class);
 
@@ -107,25 +107,15 @@ class ProfileControllerIT extends TestcontainerBasicConfig {
 
         JsonAssertions.assertThatJson(responseEntity.getBody())
                 .whenIgnoringPaths("timestamp")
-                .isEqualTo(expectedResponse);
+                .isEqualTo(response);
     }
 
     private static Stream<Arguments> PostBadRequest() {
-        String expectedBadRequest = """
-                {
-                  "timestamp":"2026-01-30T20:39:14.433033600Z",
-                  "statusCode":400,
-                  "error":"Bad Request",
-                  "message":"some field is blank or empty"
-                }
-                """;
 
-        var emptyProfile = new ProfilePostRequestDTO(" ", " ");
-        var nullProfile = new ProfilePostRequestDTO();
 
         return Stream.of(
-                Arguments.of(emptyProfile, expectedBadRequest),
-                Arguments.of(nullProfile, expectedBadRequest)
+                Arguments.of("/profile/null-profile.json", "/profile/save-message-bad-request-400.json"),
+                Arguments.of("/profile/blank-profile.json", "/profile/save-message-bad-request-400.json")
         );
 
     }

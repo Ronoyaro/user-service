@@ -1,1 +1,1 @@
-{"error":"Bad Request","message":"some field is blank or empty","statusCode":400,"timestamp":"2026-01-30T20:28:58.631630100Z"}
+{"timestamp":"01-02-2026T11:40:26","statusCode":400,"error":"Bad Request","message":"The email is invalid, The field 'email' is required, The field 'firstName' is required, The field 'lastName' is required","path":"/v1/users"}

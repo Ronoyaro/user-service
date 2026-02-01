@@ -1,5 +1,7 @@
 package ronoyaro.study.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -7,7 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalErrorHandlerAdvice {
@@ -24,9 +29,20 @@ public class GlobalErrorHandlerAdvice {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<BadRequestError> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        var badRequestError = new BadRequestError(Instant.now(), HttpStatus.BAD_REQUEST.value(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(), "some field is blank or empty");
+    public ResponseEntity<BadRequestError> handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
+
+        String errors = e.getBindingResult()
+                .getAllErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .filter(Objects::nonNull)
+                .sorted()
+                .collect(Collectors.joining(", "));
+
+        var badRequestError = new BadRequestError(OffsetDateTime.now()
+                .format(DateTimeFormatter.ofPattern("dd-MM-yyy'T'hh:mm:ss")),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(), errors, request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(badRequestError);
     }
