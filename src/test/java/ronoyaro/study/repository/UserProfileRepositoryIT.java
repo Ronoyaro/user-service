@@ -11,7 +11,7 @@ import ronoyaro.study.config.TestcontainerBasicConfig;
 @DataJpaTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class UserProfileRepositoryTest extends TestcontainerBasicConfig { //Utilizar testes de container no repositorio serve para testar o nosso banco
+class UserProfileRepositoryIT extends TestcontainerBasicConfig { //Utilizar testes de container no repositorio serve para testar o nosso banco
     @Autowired
     private UserProfileRepository repository;
 
